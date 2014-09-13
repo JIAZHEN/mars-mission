@@ -7,6 +7,11 @@ public class InstructionController {
   private String movementPlanned;
   private Rover rover;
   
+  /**
+   * Constructor to initialise a constructor
+   * @param landingPosition rover's landing position, must be in the format of XYD
+   * @param movementPlanned the movement plan of rover, must only have values in [M, L, R]
+   */
   public InstructionController(String landingPosition, String movementPlanned) {
     super();
     if (landingPosition == null ) {
@@ -24,6 +29,9 @@ public class InstructionController {
     this.movementPlanned = movementPlanned;
   }
   
+  /**
+   * Initialise the rover with the landing position
+   */
   public void landTheRover() {
     String[] landingInfo = this.landingPosition.toUpperCase().split("(?!^)");
     Integer x = Integer.valueOf(landingInfo[0]);
@@ -32,6 +40,10 @@ public class InstructionController {
     this.rover = new Rover(x, y, direction);
   }
   
+  /**
+   * Report rover's x and y co-ordinates and facing direction
+   * @return rover's current position. Return waring if rover has not yet landed.
+   */
   public String reportPosition() {
     if (this.rover == null) {
       return "The rover has landed yet.";
@@ -40,6 +52,9 @@ public class InstructionController {
     }
   }
   
+  /**
+   * Perform the movement planned of rover
+   */
   public void performMovement() {
     if (this.rover == null) {
       System.out.println("Please land the rover first");

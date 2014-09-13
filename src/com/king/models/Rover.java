@@ -9,6 +9,12 @@ public class Rover {
   private Integer y;
   private String direction;
   
+  /**
+   * Constructor to initialise a rover
+   * @param x the x co-ordinate
+   * @param y the x co-ordinate
+   * @param direction the facing direction, must be [W, S, N, E]
+   */
   public Rover(Integer x, Integer y, String direction) {
     super();
     if (x == null) {
@@ -37,6 +43,9 @@ public class Rover {
     this.direction = direction;
   }
   
+  /*
+   * Move the rover, change the co-ordinates if it's movable.
+   */
   public void move() {
     if (this.direction.equals("N")) {
       if (this.y + 1 > 9) {
@@ -65,6 +74,9 @@ public class Rover {
     }
   }
   
+  /*
+   * Change rover's facing direction. The instruction can only be either L or R
+   */
   public void changeDirection(String instruction) {
     Set<String> instructions = new HashSet<String>(Arrays.asList(new String[]{ "L", "R" }));
     if (instruction == null) {
