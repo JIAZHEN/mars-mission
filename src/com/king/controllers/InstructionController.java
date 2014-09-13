@@ -48,8 +48,10 @@ public class InstructionController {
       for (String instruction : instructions) {
         if (instruction.equals("M")) {
           this.rover.move();
-        } else {
+        } else if (instruction.equals("R") || instruction.equals("L")) {
           this.rover.changeDirection(instruction);
+        } else {
+          throw new IllegalArgumentException("Movement Plan must in [M, R, L]");
         }
       }
     }

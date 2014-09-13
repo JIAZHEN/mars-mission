@@ -87,4 +87,24 @@ public class TestInstructionController {
     String expected_position = "Rover [x=2, y=4, direction=E]";
     assertEquals(expected_position, actual_position);
   }
+  
+  @Test
+  public void testInstructionControllerCanPerformMovementWhenLandedAt99SAndPlanIsMMMRMMMLMM() {
+    InstructionController controller = new InstructionController("99S", "MMMRMMMLMM");
+    controller.landTheRover();
+    controller.performMovement();
+    String actual_position = controller.reportPosition();
+    String expected_position = "Rover [x=6, y=4, direction=S]";
+    assertEquals(expected_position, actual_position);
+  }
+  
+  @Test
+  public void testInstructionControllerCannotPerformMovementWhenLandedAt00SAndPlanIsMMMMM() {
+    InstructionController controller = new InstructionController("00S", "MMMMMM");
+    controller.landTheRover();
+    controller.performMovement();
+    String actual_position = controller.reportPosition();
+    String expected_position = "Rover [x=0, y=0, direction=S]";
+    assertEquals(expected_position, actual_position);
+  }
 }
