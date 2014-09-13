@@ -1,6 +1,8 @@
 Mars Mission
 ====================
 
+## Modeling
+
 According to the description, in this task, there is a robotic rover. The rover will have its current position and direction. So when modeling it, I'd create a Rover class, with three attributes as 
 
 ```
@@ -35,3 +37,8 @@ when receiving `R` instruction
   direction change to `N` if original direction is `W`
 ```
 
+## Design parttern
+I used MVC to implement in this project. And JUnit as the test frameworks. Following the TDD process, I wrote the unit tests first, initially all tests fail. Then I implemented the codes and make the tests pass. In this project, the view is the terminal.
+
+## Improvement
+The model is straight forward. Howevever, it makes the code contains many `if` statements. It should be able to optimise it. But at the first point, I'd finish the project first, then refactor the code to make it more readable. I spent 2 hours and 50 minutes to get this done (when I'm writing this)
