@@ -1,4 +1,4 @@
-package com.king.controllers.tests;
+package com.king.tests;
 
 import static org.junit.Assert.assertEquals;
 
@@ -74,6 +74,13 @@ public class TestInstructionController {
   @Test(expected=IllegalArgumentException.class)
   public void testInstructionControllerCanNotPerformMovementWhenmovementPlannedIsWrong() {
     InstructionController controller = new InstructionController("44N", "LMMMRRMH");
+    controller.landTheRover();
+    controller.performMovement();
+  }
+  
+  @Test(expected=IllegalArgumentException.class)
+  public void testInstructionControllerShouldNotBeInitialisedWhenMovementPlanIsInValid() {
+    InstructionController controller = new InstructionController("44N", "097s*@$&;lsdfSDF");
     controller.landTheRover();
     controller.performMovement();
   }

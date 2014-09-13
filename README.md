@@ -41,4 +41,4 @@ when receiving `R` instruction
 I used MVC to implement in this project. And JUnit as the test frameworks. Following the TDD process, I wrote the unit tests first, initially all tests fail. Then I implemented the codes and make the tests pass. In this project, the view is the terminal.
 
 ## Improvement
-The model is straight forward. Howevever, it makes the code contains many `if` statements. It should be able to optimise it. But at the first point, I'd finish the project first, then refactor the code to make it more readable. I spent 2 hours and 50 minutes to get this done (when I'm writing this)
+The model is straight forward. Howevever, it makes the code contains many `if` statements. It should be able to optimise it. But at the first point, I'd finish the project first, then refactor the code to make it more readable. I've spent 2 hours and 50 minutes to get this done (when I'm writing this).

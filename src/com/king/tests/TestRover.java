@@ -1,4 +1,4 @@
-package com.king.models.tests;
+package com.king.tests;
 
 import static org.junit.Assert.assertEquals;
 
