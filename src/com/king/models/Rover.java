@@ -1,13 +1,20 @@
 package com.king.models;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Rover {
   private Integer x;
   private Integer y;
   private String direction;
+  private Map<String, Integer[]> dirDelta;
+  private Map<String, Integer> dirToDegree;
+  private Map<Integer, String> degreeToDir;
+  private final Integer minBorder = 0;
+  private final Integer maxBorder = 9;
   
   /**
    * Constructor to initialise a rover
@@ -20,14 +27,14 @@ public class Rover {
     if (x == null) {
       throw new IllegalArgumentException("X co-ordinate can't be NULL");
     }
-    if (x < 0 || x > 9) {
+    if (x < this.minBorder || x > this.maxBorder) {
       throw new IllegalArgumentException("X co-ordinate must be within 0 - 9");
     }
     
     if (y == null) {
       throw new IllegalArgumentException("Y co-ordinate can't be NULL");
     }
-    if (y < 0 || y > 9) {
+    if (y < this.minBorder || y > this.maxBorder) {
       throw new IllegalArgumentException("Y co-ordinate must be within 0 - 9");
     }
     
@@ -41,37 +48,18 @@ public class Rover {
     this.x = x;
     this.y = y;
     this.direction = direction;
+    initDirDelTa();
+    initMappings();
   }
   
   /*
    * Move the rover, change the co-ordinates if it's movable.
    */
   public void move() {
-    if (this.direction.equals("N")) {
-      if (this.y + 1 > 9) {
-        System.out.println("Cannot move when the position is " + this.toString());
-      } else {
-        this.y += 1;
-      }
-    } else if (this.direction.equals("E")) {
-      if (this.x + 1 > 9) {
-        System.out.println("Cannot move when the position is " + this.toString());
-      } else {
-        this.x += 1;
-      }
-    } else if (this.direction.equals("S")) {
-      if (this.y - 1 < 0) {
-        System.out.println("Cannot move when the position is " + this.toString());
-      } else {
-        this.y -= 1;
-      }
-    } else if (this.direction.equals("W")) {
-      if (this.x - 1 < 0) {
-        System.out.println("Cannot move when the position is " + this.toString());
-      } else {
-        this.x -= 1;
-      }
-    }
+    Integer[] deltas = this.dirDelta.get(this.direction);
+    this.x += deltas[0];
+    this.y += deltas[1];
+    verifyWithBorder(deltas);
   }
   
   /*
@@ -84,27 +72,13 @@ public class Rover {
     } else if (!instructions.contains(instruction)) {
       throw new IllegalArgumentException("Direction (case sensitive) must be in " + instructions);
     }
-    if (instruction.equals("L")) {
-      if (this.direction.equals("N")) {
-        this.direction = "W";
-      } else if (this.direction.equals("W")) {
-        this.direction = "S";
-      } else if (this.direction.equals("S")) {
-        this.direction = "E";
-      } else if (this.direction.equals("E")) {
-        this.direction = "N";
-      }
-    } else if (instruction.equals("R")) {
-      if (this.direction.equals("N")) {
-        this.direction = "E";
-      } else if (this.direction.equals("E")) {
-        this.direction = "S";
-      } else if (this.direction.equals("S")) {
-        this.direction = "W";
-      } else if (this.direction.equals("W")) {
-        this.direction = "N";
-      }
+    Integer degree = this.dirToDegree.get(this.direction) + this.dirToDegree.get(instruction);
+    if (degree >= 360) {
+      degree -= 360;
+    } else if (degree < 0) {
+      degree += 360;
     }
+    this.direction = this.degreeToDir.get(degree);
   }
 
   public Integer getX() {
@@ -159,6 +133,38 @@ public class Rover {
   @Override
   public String toString() {
     return "Rover [x=" + x + ", y=" + y + ", direction=" + direction + "]";
+  }
+  
+  private void initDirDelTa() {
+    this.dirDelta = new HashMap<String, Integer[]>();
+    this.dirDelta.put("N", new Integer[]{0, 1});
+    this.dirDelta.put("S", new Integer[]{0, -1});
+    this.dirDelta.put("W", new Integer[]{-1, 0});
+    this.dirDelta.put("E", new Integer[]{1, 0});
+  }
+  
+  private void verifyWithBorder(Integer[] delta) {
+    if (this.x < this.minBorder || this.x > this.maxBorder || this.y < this.minBorder || this.y > this.maxBorder) {
+      System.out.println("Cannot move when the position is " + this.toString());
+      this.x -= delta[0];
+      this.y -= delta[1];
+    }
+  }
+  
+  private void initMappings() {
+    this.dirToDegree = new HashMap<String, Integer>();
+    this.dirToDegree.put("N", 0);
+    this.dirToDegree.put("E", 90);
+    this.dirToDegree.put("S", 180);
+    this.dirToDegree.put("W", 270);
+    this.dirToDegree.put("L", -90);
+    this.dirToDegree.put("R", 90);
+    
+    this.degreeToDir = new HashMap<Integer, String>();
+    this.degreeToDir.put(0, "N");
+    this.degreeToDir.put(90, "E");
+    this.degreeToDir.put(180, "S");
+    this.degreeToDir.put(270, "W");
   }
   
 }
